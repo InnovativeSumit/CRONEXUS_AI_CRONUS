@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="./screenshots/CROPNEXUS LOGO.jpg">
-    <img src="" alt="Logo" width="120" height="120">
+  <a href="#YOUR INTERNET SPEED IS TOO MUCH SLOW">
+    <img src="./screenshots/CROPNEXUS LOGO.jpg" alt="Logo" width="120" height="120">
   </a>
 </p>
 
@@ -165,7 +165,7 @@ data stays in the JSON files under `app/database/`, no DB needed for those).
 2. Copy `.env.example` to `.env` in the project root and set:
 
    ```dotenv
-   MONGO_URI=mongodb://localhost:27017/CROPNEXUS
+   MONGO_URI=mongodb://localhost:000000/CROPNEXUS
    MONGO_USERS_COLLECTION=USERS
    ```
 
@@ -183,13 +183,9 @@ return a clear "couldn't reach the database" error until MongoDB is up.
 
 ```bash
 python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
+source venv/bin/activate      
 pip install -r requirements.txt
-
-cp .env.example .env            # then edit .env — see MongoDB Configuration above
-# also set SECRET_KEY and JWT_SECRET to real random values, e.g.:
-# python -c "import secrets; print(secrets.token_hex(32))"
-
+cp .env.example .env           
 cd app
 python app.py
 ```
@@ -231,8 +227,7 @@ available, with a language switcher and dark-mode toggle in the nav bar.
 ```bash
 cd mobile
 npm install
-cp .env.example .env    # set EXPO_PUBLIC_API_URL to your computer's LAN IP, e.g.:
-                         # EXPO_PUBLIC_API_URL=http://192.168.1.23:5050
+cp .env.example .env    
 npx expo start
 ```
 
