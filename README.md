@@ -38,6 +38,7 @@ responsive web app and a native Expo mobile app.
 - [Backend / API Setup](#-backend--api-setup)
 - [Web App](#-web-app)
 - [Mobile App (Expo)](#-mobile-app-expo)
+- [Architecture](#-PROJECT-ARCHITECTURE)
 - [Authentication & Security](#-authentication--security)
 - [Multilingual Support](#-multilingual-support)
 - [Retraining the Models](#-retraining-the-models)
@@ -244,7 +245,9 @@ Full setup detail, every dependency and exact install command, and
 troubleshooting live in **[`mobile/README.md`](mobile/README.md)**.
 
 ---
-
+## Architecture
+### THE LINK IS =>
+--
 ## 🔐 Authentication & Security
 
 - **Passwords** are hashed with `bcrypt` (cost factor 12) before ever
