@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block title %}Leaf Disease Detection — CropNexus{% endblock %}
+{% block content %}
+<section class="section container narrow">
+  <div class="section-head left">
+    <span class="eyebrow">{{ t.leaf_eyebrow }}</span>
+    <h1>{{ t.leaf_title }}</h1>
+    <p>{{ t.leaf_subtitle }}</p>
+  </div>
+
+  {% if not model_ready %}
+  <div class="card">
+    <p class="hint-text">⚠️ The leaf disease model isn't loaded on this server yet — check that <code>tensorflow</code> is installed and the model files are in <code>app/model/leaf_disease/</code>.</p>
+  </div>
+  {% endif %}
+
+  <form class="card form-card" id="leafForm" method="POST" action="{{ url_for('leaf_disease') }}" enctype="multipart/form-data">
+    <div class="field">
+      <label for="leaf_image">🍃 {{ t.leaf_upload_label }}</label>
+      <input type="file" id="leaf_image" name="leaf_image" accept="image/png, image/jpeg, image/webp" required>
+    </div>
+
+    <div class="preview-box hidden" id="previewBox">
+      <div class="preview-frame">
+        <img id="previewImg" src="" alt="Selected leaf preview">
+        <div class="scan-overlay" id="scanOverlay">
+          <div class="scan-line"></div>
+        </div>
+      </div>
+      <p class="scan-text" id="scanText">Scanning leaf…</p>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block" id="detectBtn" {{ 'disabled' if not model_ready }}>{{ t.leaf_detect_button }}</button>
+  </form>
+
+  <div class="chip-row mt">
+    <span class="chip">Apple</span>
+    <span class="chip">Corn (Maize)</span>
+    <span class="chip">Grape</span>
+    <span class="chip">Potato</span>
+    <span class="chip">Tomato</span>
+  </div>
+  <p class="hint-text">Currently trained to recognize scab, rust, black rot, early blight, and late blight (plus healthy leaves) across these 5 crops.</p>
+
+  {% if result %}
+  <div class="card leaf-result-card mt">
+    <div class="leaf-result-top">
+      <div class="leaf-result-image-box">
+        <img src="{{ result.image_url }}" alt="Uploaded leaf" class="leaf-result-image">
+      </div>
+      <div class="leaf-result-summary">
+        <h2 class="leaf-disease-name {{ 'is-healthy' if result.info.is_healthy else 'is-diseased' }}">{{ result.info.disease_name }}</h2>
+        <p class="leaf-confidence">{{ result.info.crop }} — {{ result.top_predictions[0].confidence }}% confidence</p>
+        <p class="leaf-field-label">Symptoms</p>
+        <p class="lead-sm">{{ result.info.symptoms }}</p>
+      </div>
+    </div>
+
+    <div class="leaf-result-section">
+      <h3>💊 Curing / Treatment</h3>
+      <p class="lead-sm">{{ result.info.treatment }}</p>
+    </div>
+
+    <div class="leaf-result-section">
+      <h3>📊 Top Predictions</h3>
+      <div class="crop-rank-list">
+        {% for p in result.top_predictions %}
+        <div class="crop-rank-item {{ 'best' if loop.first }}">
+          <span class="rank-badge">{{ loop.index }}</span>
+          <span class="rank-name">{{ p.class.replace('___', ' — ').replace('_', ' ') }}</span>
+          <div class="rank-bar-wrap">
+            <div class="rank-bar" style="width: {{ p.confidence }}%"></div>
+          </div>
+          <span class="rank-pct">{{ p.confidence }}%</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const fileInput = document.getElementById("leaf_image");
+  const previewBox = document.getElementById("previewBox");
+  const previewImg = document.getElementById("previewImg");
+  const form = document.getElementById("leafForm");
+  const scanOverlay = document.getElementById("scanOverlay");
+  const scanText = document.getElementById("scanText");
+  const detectBtn = document.getElementById("detectBtn");
+
+  if (!fileInput) return;
+
+  fileInput.addEventListener("change", function () {
+    const file = fileInput.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      previewImg.src = e.target.result;
+      previewBox.classList.remove("hidden");
+      scanOverlay.classList.remove("active");
+      scanText.classList.remove("active");
+    };
+    reader.readAsDataURL(file);
+  });
+
+  form.addEventListener("submit", function (e) {
+    if (!fileInput.files[0] || detectBtn.disabled) return;
+    e.preventDefault();
+    scanOverlay.classList.add("active");
+    scanText.classList.add("active");
+    detectBtn.disabled = true;
+    detectBtn.textContent = "Analyzing…";
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        form.submit();
+      });
+    });
+  });
+});
+</script>
+{% endblock %}

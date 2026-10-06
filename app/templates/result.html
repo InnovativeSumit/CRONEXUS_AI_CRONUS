@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Your Advisory — CropNexus{% endblock %}
+{% block content %}
+<section class="section container">
+  <div class="section-head left">
+    <span class="eyebrow">Advisory for {{ record.location or "your field" }}</span>
+    <h1>Recommended crop: <span class="highlight">{{ record.recommended_crop|capitalize }}</span></h1>
+    <p>Based on your soil and climate inputs, here is the full advisory.</p>
+  </div>
+
+  <div class="result-grid result-grid-3">
+    <div class="card result-col">
+      <h3>🏆 Top Matching Crops</h3>
+      <div class="crop-rank-list">
+        {% for c in record.top_crops %}
+        <div class="crop-rank-item {{ 'best' if loop.first }}">
+          <span class="rank-badge">{{ loop.index }}</span>
+          <span class="rank-name">{{ c.crop|capitalize }}</span>
+          <div class="rank-bar-wrap">
+            <div class="rank-bar" style="width: {{ c.confidence }}%"></div>
+          </div>
+          <span class="rank-pct">{{ c.confidence }}%</span>
+        </div>
+        {% endfor %}
+      </div>
+
+      <h3 class="mt">🧪 Fertilizer Guidance</h3>
+      <p class="lead-sm">{{ info.fertilizer_guidance }}</p>
+      <ul class="tip-list">
+        {% for tip in tips %}<li>{{ tip }}</li>{% endfor %}
+      </ul>
+
+      <h3 class="mt">💧 Irrigation Plan</h3>
+      <p class="lead-sm">{{ info.irrigation_guidance }}</p>
+
+      <h3 class="mt">🍃 Diseases to Watch For</h3>
+      <div class="chip-row">
+        {% for d in info.common_diseases %}<span class="chip">{{ d }}</span>{% endfor %}
+      </div>
+    </div>
+
+    <div class="card result-col">
+      <h3>📋 Your Inputs</h3>
+      <table class="mini-table">
+        <tr><td>Location</td><td>{{ record.location }}</td></tr>
+        <tr><td>Soil Type</td><td>{{ record.soil_type }}</td></tr>
+        <tr><td>Nitrogen (N)</td><td>{{ record.inputs.N }}</td></tr>
+        <tr><td>Phosphorus (P)</td><td>{{ record.inputs.P }}</td></tr>
+        <tr><td>Potassium (K)</td><td>{{ record.inputs.K }}</td></tr>
+        <tr><td>Temperature</td><td>{{ record.inputs.temperature }} °C</td></tr>
+        <tr><td>Humidity</td><td>{{ record.inputs.humidity }} %</td></tr>
+        <tr><td>Soil pH</td><td>{{ record.inputs.ph }}</td></tr>
+        <tr><td>Rainfall</td><td>{{ record.inputs.rainfall }} mm</td></tr>
+      </table>
+    </div>
+
+    <div class="card result-col">
+      <h3>🌾 Ideal Conditions for {{ record.recommended_crop|capitalize }}</h3>
+      <table class="mini-table">
+        {% for k, v in info.ideal_conditions.items() %}
+        <tr><td>{{ k }}</td><td>{{ v }}</td></tr>
+        {% endfor %}
+      </table>
+      <p class="season-tag">📅 Typical season: <strong>{{ info.season }}</strong></p>
+      <a href="{{ url_for('advisory') }}" class="btn btn-ghost btn-block mt">Run Another Advisory</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

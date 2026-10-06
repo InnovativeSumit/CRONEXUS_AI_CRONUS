@@ -1,0 +1,70 @@
+[
+  {
+    "id": "551e2a33",
+    "timestamp": "2026-10-07T00:01:01",
+    "location": "kolkata",
+    "soil_type": "Black Soil",
+    "inputs": {
+      "N": 25.0,
+      "P": 65.0,
+      "K": 25.0,
+      "temperature": 30.0,
+      "humidity": 46.0,
+      "ph": 7.3,
+      "rainfall": 180.0,
+      "npk_sum": 115.0,
+      "n_p_ratio": 0.384615378698225,
+      "n_k_ratio": 0.9999999600000016,
+      "temp_humidity_index": 13.8
+    },
+    "top_crops": [
+      {
+        "crop": "pigeonpeas",
+        "confidence": 92.8
+      },
+      {
+        "crop": "blackgram",
+        "confidence": 2.49
+      },
+      {
+        "crop": "mothbeans",
+        "confidence": 1.95
+      }
+    ],
+    "recommended_crop": "pigeonpeas"
+  },
+  {
+    "id": "7294af5b",
+    "timestamp": "2026-10-06T22:35:18",
+    "location": "kolkata",
+    "soil_type": "Sandy Soil",
+    "inputs": {
+      "N": 56.0,
+      "P": 25.0,
+      "K": 45.0,
+      "temperature": 25.3,
+      "humidity": 45.0,
+      "ph": 2.3,
+      "rainfall": 186.0,
+      "npk_sum": 126.0,
+      "n_p_ratio": 2.2399999104000035,
+      "n_k_ratio": 1.244444416790124,
+      "temp_humidity_index": 11.385
+    },
+    "top_crops": [
+      {
+        "crop": "mango",
+        "confidence": 33.2
+      },
+      {
+        "crop": "coffee",
+        "confidence": 19.24
+      },
+      {
+        "crop": "pomegranate",
+        "confidence": 11.2
+      }
+    ],
+    "recommended_crop": "mango"
+  }
+]

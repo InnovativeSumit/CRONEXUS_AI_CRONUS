@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}About the Model — CropNexus{% endblock %}
+{% block content %}
+<section class="section container">
+  <div class="section-head left">
+    <span class="eyebrow">{{ t.about_eyebrow }}</span>
+    <h1>{{ t.about_title }}</h1>
+    <p>Full transparency on how the recommendation engine was built, compared and tuned.</p>
+  </div>
+
+  <div class="stat-cards">
+    <div class="card stat-card"><strong>{{ metrics.final_model_name }}</strong><span>Final Model</span></div>
+    <div class="card stat-card"><strong>{{ (metrics.test_accuracy*100)|round(2) }}%</strong><span>Test Accuracy</span></div>
+    <div class="card stat-card"><strong>{{ (metrics.weighted_f1*100)|round(2) }}%</strong><span>Weighted F1</span></div>
+    <div class="card stat-card"><strong>{{ metrics.n_classes }}</strong><span>Crop Classes</span></div>
+  </div>
+
+  <div class="card mt">
+    <h3>📊 Model Comparison (all candidates tested)</h3>
+    <div class="table-wrap">
+      <table class="history-table">
+        <thead>
+          <tr><th>Model</th><th>Test Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th><th>CV Mean</th></tr>
+        </thead>
+        <tbody>
+          {% for row in metrics.model_comparison %}
+          <tr class="{{ 'best-row' if row.Model == metrics.final_model_name.replace(' (Tuned)', '') }}">
+            <td>{{ row.Model }}</td>
+            <td>{{ (row["Test Accuracy"]*100)|round(2) }}%</td>
+            <td>{{ (row.Precision*100)|round(2) }}%</td>
+            <td>{{ (row.Recall*100)|round(2) }}%</td>
+            <td>{{ (row["F1 Score"]*100)|round(2) }}%</td>
+            <td>{{ (row["CV Mean Accuracy"]*100)|round(2) }}%</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card mt">
+    <h3>🔧 Hyperparameter Tuning (top candidates)</h3>
+    <div class="table-wrap">
+      <table class="history-table">
+        <thead><tr><th>Model</th><th>Test Accuracy</th><th>F1 Score</th></tr></thead>
+        <tbody>
+          {% for row in metrics.tuned_comparison %}
+          <tr><td>{{ row.Model }}</td><td>{{ (row["Test Accuracy"]*100)|round(2) }}%</td><td>{{ (row["F1 Score"]*100)|round(2) }}%</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="hint-text">Best hyperparameters: <code>{{ metrics.best_params }}</code></p>
+  </div>
+
+  <div class="card mt">
+    <h3>🌟 Feature Importance</h3>
+    <div class="importance-bars">
+      {% for feat, imp in metrics.feature_importance.items() %}
+      <div class="imp-row">
+        <span class="imp-label">{{ feat }}</span>
+        <div class="imp-bar-wrap"><div class="imp-bar" style="width: {{ (imp*100*4)|round(1) }}%"></div></div>
+        <span class="imp-pct">{{ (imp*100)|round(1) }}%</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

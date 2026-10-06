@@ -1,0 +1,419 @@
+{
+  "rice": {
+    "season": "Kharif (Jun-Nov)",
+    "fertilizer_guidance": "Urea (N-rich) split in 3 doses + DAP at sowing",
+    "irrigation_guidance": "Very high water need \u2014 frequent irrigation (every 1-3 days) or naturally high-rainfall zone; watch for waterlogging.",
+    "common_diseases": [
+      "Blast",
+      "Bacterial Leaf Blight",
+      "Sheath Blight"
+    ],
+    "ideal_conditions": {
+      "N": 79.89,
+      "P": 47.58,
+      "K": 39.87,
+      "temperature": 23.69,
+      "humidity": 82.27,
+      "ph": 6.43,
+      "rainfall": 236.18
+    }
+  },
+  "maize": {
+    "season": "Kharif / Rabi",
+    "fertilizer_guidance": "NPK 120:60:40 kg/ha, top-dress N at knee-high stage",
+    "irrigation_guidance": "Moderate water need \u2014 irrigate every 6-9 days depending on soil moisture.",
+    "common_diseases": [
+      "Leaf Blight",
+      "Common Rust",
+      "Downy Mildew"
+    ],
+    "ideal_conditions": {
+      "N": 77.76,
+      "P": 48.44,
+      "K": 19.79,
+      "temperature": 22.39,
+      "humidity": 65.09,
+      "ph": 6.25,
+      "rainfall": 84.77
+    }
+  },
+  "chickpea": {
+    "season": "Rabi (Oct-Mar)",
+    "fertilizer_guidance": "Low N (legume fixes its own), phosphorus-rich basal dose",
+    "irrigation_guidance": "Moderate water need \u2014 irrigate every 6-9 days depending on soil moisture.",
+    "common_diseases": [
+      "Ascochyta Blight",
+      "Fusarium Wilt",
+      "Collar Rot"
+    ],
+    "ideal_conditions": {
+      "N": 40.09,
+      "P": 67.79,
+      "K": 79.92,
+      "temperature": 18.87,
+      "humidity": 16.86,
+      "ph": 7.34,
+      "rainfall": 80.06
+    }
+  },
+  "kidneybeans": {
+    "season": "Rabi / Summer",
+    "fertilizer_guidance": "Light N starter dose + phosphorus for root/nodule growth",
+    "irrigation_guidance": "Moderate water need \u2014 irrigate every 6-9 days depending on soil moisture.",
+    "common_diseases": [
+      "Anthracnose",
+      "Bean Rust",
+      "Angular Leaf Spot"
+    ],
+    "ideal_conditions": {
+      "N": 20.75,
+      "P": 67.54,
+      "K": 20.05,
+      "temperature": 20.12,
+      "humidity": 21.61,
+      "ph": 5.75,
+      "rainfall": 105.92
+    }
+  },
+  "pigeonpeas": {
+    "season": "Kharif (Jun-Dec)",
+    "fertilizer_guidance": "Minimal N, basal phosphorus + potassium",
+    "irrigation_guidance": "High water need \u2014 irrigate every 3-5 days, ensure good drainage to avoid waterlogging.",
+    "common_diseases": [
+      "Fusarium Wilt",
+      "Sterility Mosaic",
+      "Phytophthora Blight"
+    ],
+    "ideal_conditions": {
+      "N": 20.73,
+      "P": 67.73,
+      "K": 20.29,
+      "temperature": 27.74,
+      "humidity": 48.06,
+      "ph": 5.79,
+      "rainfall": 149.46
+    }
+  },
+  "mothbeans": {
+    "season": "Kharif (drought-tolerant)",
+    "fertilizer_guidance": "Very low input, light phosphorus at sowing",
+    "irrigation_guidance": "Low water need \u2014 irrigate every 10-14 days; prioritize drip/sprinkler to conserve water.",
+    "common_diseases": [
+      "Yellow Mosaic Virus",
+      "Powdery Mildew"
+    ],
+    "ideal_conditions": {
+      "N": 21.44,
+      "P": 48.01,
+      "K": 20.23,
+      "temperature": 28.19,
+      "humidity": 53.16,
+      "ph": 6.83,
+      "rainfall": 51.2
+    }
+  },
+  "mungbean": {
+    "season": "Kharif / Summer",
+    "fertilizer_guidance": "Starter N (20 kg/ha) + phosphorus, avoid excess N",
+    "irrigation_guidance": "Low water need \u2014 irrigate every 10-14 days; prioritize drip/sprinkler to conserve water.",
+    "common_diseases": [
+      "Yellow Mosaic Virus",
+      "Cercospora Leaf Spot",
+      "Powdery Mildew"
+    ],
+    "ideal_conditions": {
+      "N": 20.99,
+      "P": 47.28,
+      "K": 19.87,
+      "temperature": 28.53,
+      "humidity": 85.5,
+      "ph": 6.72,
+      "rainfall": 48.4
+    }
+  },
+  "blackgram": {
+    "season": "Kharif / Rabi",
+    "fertilizer_guidance": "Low N, phosphorus + potassium basal application",
+    "irrigation_guidance": "Moderate water need \u2014 irrigate every 6-9 days depending on soil moisture.",
+    "common_diseases": [
+      "Yellow Mosaic Virus",
+      "Leaf Crinkle",
+      "Powdery Mildew"
+    ],
+    "ideal_conditions": {
+      "N": 40.02,
+      "P": 67.47,
+      "K": 19.24,
+      "temperature": 29.97,
+      "humidity": 65.12,
+      "ph": 7.13,
+      "rainfall": 67.88
+    }
+  },
+  "lentil": {
+    "season": "Rabi (Oct-Mar)",
+    "fertilizer_guidance": "Minimal N, phosphorus-rich basal dose",
+    "irrigation_guidance": "Low water need \u2014 irrigate every 10-14 days; prioritize drip/sprinkler to conserve water.",
+    "common_diseases": [
+      "Rust",
+      "Wilt",
+      "Ascochyta Blight"
+    ],
+    "ideal_conditions": {
+      "N": 18.77,
+      "P": 68.36,
+      "K": 19.41,
+      "temperature": 24.51,
+      "humidity": 64.8,
+      "ph": 6.93,
+      "rainfall": 45.68
+    }
+  },
+  "pomegranate": {
+    "season": "Year-round (irrigated)",
+    "fertilizer_guidance": "Balanced NPK + micronutrients (Zn, Fe) in split doses",
+    "irrigation_guidance": "Moderate water need \u2014 irrigate every 6-9 days depending on soil moisture.",
+    "common_diseases": [
+      "Bacterial Blight",
+      "Fruit Spot",
+      "Wilt"
+    ],
+    "ideal_conditions": {
+      "N": 18.87,
+      "P": 18.75,
+      "K": 40.21,
+      "temperature": 21.84,
+      "humidity": 90.13,
+      "ph": 6.43,
+      "rainfall": 107.53
+    }
+  },
+  "banana": {
+    "season": "Year-round (irrigated)",
+    "fertilizer_guidance": "Heavy N-K feeder, monthly split doses through drip",
+    "irrigation_guidance": "Moderate water need \u2014 irrigate every 6-9 days depending on soil moisture.",
+    "common_diseases": [
+      "Panama Wilt",
+      "Sigatoka Leaf Spot",
+      "Bunchy Top Virus"
+    ],
+    "ideal_conditions": {
+      "N": 100.23,
+      "P": 82.01,
+      "K": 50.05,
+      "temperature": 27.38,
+      "humidity": 80.36,
+      "ph": 5.98,
+      "rainfall": 104.63
+    }
+  },
+  "mango": {
+    "season": "Perennial (flowering Dec-Feb)",
+    "fertilizer_guidance": "Organic manure + NPK after harvest, avoid excess N before flowering",
+    "irrigation_guidance": "Moderate water need \u2014 irrigate every 6-9 days depending on soil moisture.",
+    "common_diseases": [
+      "Anthracnose",
+      "Powdery Mildew",
+      "Bacterial Canker"
+    ],
+    "ideal_conditions": {
+      "N": 20.07,
+      "P": 27.18,
+      "K": 29.92,
+      "temperature": 31.21,
+      "humidity": 50.16,
+      "ph": 5.77,
+      "rainfall": 94.7
+    }
+  },
+  "grapes": {
+    "season": "Perennial (pruned twice/yr)",
+    "fertilizer_guidance": "Balanced NPK with potassium boost during berry development",
+    "irrigation_guidance": "Moderate water need \u2014 irrigate every 6-9 days depending on soil moisture.",
+    "common_diseases": [
+      "Downy Mildew",
+      "Powdery Mildew",
+      "Anthracnose"
+    ],
+    "ideal_conditions": {
+      "N": 23.18,
+      "P": 132.53,
+      "K": 200.11,
+      "temperature": 23.85,
+      "humidity": 81.88,
+      "ph": 6.03,
+      "rainfall": 69.61
+    }
+  },
+  "watermelon": {
+    "season": "Summer / Zaid",
+    "fertilizer_guidance": "Moderate N early, potassium-heavy during fruiting",
+    "irrigation_guidance": "Low water need \u2014 irrigate every 10-14 days; prioritize drip/sprinkler to conserve water.",
+    "common_diseases": [
+      "Fusarium Wilt",
+      "Anthracnose",
+      "Downy Mildew"
+    ],
+    "ideal_conditions": {
+      "N": 99.42,
+      "P": 17.0,
+      "K": 50.22,
+      "temperature": 25.59,
+      "humidity": 85.16,
+      "ph": 6.5,
+      "rainfall": 50.79
+    }
+  },
+  "muskmelon": {
+    "season": "Summer / Zaid",
+    "fertilizer_guidance": "Moderate NPK, potassium boost at fruit set",
+    "irrigation_guidance": "Low water need \u2014 irrigate every 10-14 days; prioritize drip/sprinkler to conserve water.",
+    "common_diseases": [
+      "Powdery Mildew",
+      "Downy Mildew",
+      "Fusarium Wilt"
+    ],
+    "ideal_conditions": {
+      "N": 100.32,
+      "P": 17.72,
+      "K": 50.08,
+      "temperature": 28.66,
+      "humidity": 92.34,
+      "ph": 6.36,
+      "rainfall": 24.69
+    }
+  },
+  "apple": {
+    "season": "Temperate, perennial",
+    "fertilizer_guidance": "Balanced NPK in early spring + organic mulch",
+    "irrigation_guidance": "Moderate water need \u2014 irrigate every 6-9 days depending on soil moisture.",
+    "common_diseases": [
+      "Apple Scab",
+      "Powdery Mildew",
+      "Fire Blight"
+    ],
+    "ideal_conditions": {
+      "N": 20.8,
+      "P": 134.22,
+      "K": 199.89,
+      "temperature": 22.63,
+      "humidity": 92.33,
+      "ph": 5.93,
+      "rainfall": 112.65
+    }
+  },
+  "orange": {
+    "season": "Perennial (citrus)",
+    "fertilizer_guidance": "Balanced NPK with micronutrients, split across seasons",
+    "irrigation_guidance": "Moderate water need \u2014 irrigate every 6-9 days depending on soil moisture.",
+    "common_diseases": [
+      "Citrus Canker",
+      "Greening (HLB)",
+      "Leaf Miner damage"
+    ],
+    "ideal_conditions": {
+      "N": 19.58,
+      "P": 16.55,
+      "K": 10.01,
+      "temperature": 22.77,
+      "humidity": 92.17,
+      "ph": 7.02,
+      "rainfall": 110.47
+    }
+  },
+  "papaya": {
+    "season": "Year-round (irrigated)",
+    "fertilizer_guidance": "Monthly light NPK doses, high organic matter",
+    "irrigation_guidance": "High water need \u2014 irrigate every 3-5 days, ensure good drainage to avoid waterlogging.",
+    "common_diseases": [
+      "Ring Spot Virus",
+      "Powdery Mildew",
+      "Anthracnose"
+    ],
+    "ideal_conditions": {
+      "N": 49.88,
+      "P": 59.05,
+      "K": 50.04,
+      "temperature": 33.72,
+      "humidity": 92.4,
+      "ph": 6.74,
+      "rainfall": 142.63
+    }
+  },
+  "coconut": {
+    "season": "Perennial",
+    "fertilizer_guidance": "NPK + Mg twice yearly, organic manure basal",
+    "irrigation_guidance": "High water need \u2014 irrigate every 3-5 days, ensure good drainage to avoid waterlogging.",
+    "common_diseases": [
+      "Bud Rot",
+      "Leaf Rot",
+      "Root Wilt"
+    ],
+    "ideal_conditions": {
+      "N": 21.98,
+      "P": 16.93,
+      "K": 30.59,
+      "temperature": 27.41,
+      "humidity": 94.84,
+      "ph": 5.98,
+      "rainfall": 175.69
+    }
+  },
+  "cotton": {
+    "season": "Kharif (Apr-Oct)",
+    "fertilizer_guidance": "N-heavy, split in 3-4 doses with potassium at boll stage",
+    "irrigation_guidance": "Moderate water need \u2014 irrigate every 6-9 days depending on soil moisture.",
+    "common_diseases": [
+      "Bacterial Blight",
+      "Leaf Curl Virus",
+      "Grey Mildew"
+    ],
+    "ideal_conditions": {
+      "N": 117.77,
+      "P": 46.24,
+      "K": 19.56,
+      "temperature": 23.99,
+      "humidity": 79.84,
+      "ph": 6.91,
+      "rainfall": 80.4
+    }
+  },
+  "jute": {
+    "season": "Kharif (Mar-Jul)",
+    "fertilizer_guidance": "Moderate N-P-K, top-dress N 3-4 weeks after sowing",
+    "irrigation_guidance": "High water need \u2014 irrigate every 3-5 days, ensure good drainage to avoid waterlogging.",
+    "common_diseases": [
+      "Stem Rot",
+      "Anthracnose",
+      "Black Band"
+    ],
+    "ideal_conditions": {
+      "N": 78.4,
+      "P": 46.86,
+      "K": 39.99,
+      "temperature": 24.96,
+      "humidity": 79.64,
+      "ph": 6.73,
+      "rainfall": 174.79
+    }
+  },
+  "coffee": {
+    "season": "Perennial (shade-grown)",
+    "fertilizer_guidance": "Balanced NPK 3 times/year + organic mulch",
+    "irrigation_guidance": "High water need \u2014 irrigate every 3-5 days, ensure good drainage to avoid waterlogging.",
+    "common_diseases": [
+      "Coffee Leaf Rust",
+      "Berry Disease",
+      "Root Rot"
+    ],
+    "ideal_conditions": {
+      "N": 101.2,
+      "P": 28.74,
+      "K": 29.94,
+      "temperature": 25.54,
+      "humidity": 58.87,
+      "ph": 6.79,
+      "rainfall": 158.07
+    }
+  }
+}
