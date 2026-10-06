@@ -246,7 +246,8 @@ troubleshooting live in **[`mobile/README.md`](mobile/README.md)**.
 
 ---
 ## Architecture
-### THE LINK IS => Architecture
+
+### [View Architecture Diagram on Eraser](https://app.eraser.io/workspace/3SLBkUA8KYQU62iT6eSV)
 --
 ## 🔐 Authentication & Security
 
