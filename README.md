@@ -38,7 +38,7 @@ responsive web app and a native Expo mobile app.
 - [Backend / API Setup](#-backend--api-setup)
 - [Web App](#-web-app)
 - [Mobile App (Expo)](#-mobile-app-expo)
-- [Architecture](#-PROJECT-ARCHITECTURE)
+- [Architecture](#-architecture)
 - [Authentication & Security](#-authentication--security)
 - [Multilingual Support](#-multilingual-support)
 - [Retraining the Models](#-retraining-the-models)
