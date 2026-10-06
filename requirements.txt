@@ -1,0 +1,16 @@
+Flask
+Flask-Cors
+Werkzeug
+scikit-learn
+pandas
+numpy
+joblib
+xgboost
+matplotlib
+seaborn
+tensorflow
+Pillow
+pymongo
+bcrypt
+PyJWT
+python-dotenv
