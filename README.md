@@ -4,7 +4,7 @@
 
 # 🌾 CropNexus
 
-### AI-Powered Farmer Advisory: crops, plant health, weather, water and farm planning
+### AI-Powered Farmer Advisory: crops, plant health, market, weather, water and farm planning
 
 **React + TypeScript + Tailwind CSS (Vite)** · **Node.js + Express + MongoDB** · **Python + FastAPI + TensorFlow / scikit-learn**
 
@@ -12,7 +12,7 @@
 
 </div>
 
-CropNexus helps a farmer decide what to grow, check a sick leaf, check the weather, plan irrigation, keep a task calendar and find government schemes. Accounts, sessions, statistics, history and calendar tasks live in MongoDB; the ML models run in a separate FastAPI service.
+CropNexus helps a farmer decide what to grow, check a sick leaf, see today's mandi prices and the weather, plan irrigation, keep a task calendar and find government schemes. Accounts, sessions, statistics, history and calendar tasks live in MongoDB; the ML models run in a separate FastAPI service.
 
 ## 📋 Table of Contents
 [Features](#-features) · [Architecture](#-architecture) · [Quick start](#-quick-start) · [Environment & API keys](#-environment-variables--api-keys) · [Feature guide](#-feature-guide) · [Data you can edit](#-data-you-can-edit) · [Authentication & security](#-authentication--security) · [API reference](#-api-reference) · [Testing](#-testing) · [Soil model training](#-soil-health-model) · [Retraining](#-retraining-the-models) · [Deployment](#-deployment) · [Limitations](#-honest-limitations) · [Troubleshooting](#-troubleshooting)
@@ -23,6 +23,7 @@ CropNexus helps a farmer decide what to grow, check a sick leaf, check the weath
 |---|---|---|
 | **AI Crop Prediction** – top-3 crops from soil N-P-K, pH and weather, with fertilizer/irrigation guidance | ✔ | Trained Random Forest (30 crops) |
 | **Plant Disease Detector** – disease from a leaf photo, with symptoms, treatment and low-confidence warnings | ✔ | Trained TensorFlow CNN (10 classes) |
+| **Live Market** – mandi prices, price chart, gainers/losers, crop comparison, profit/loss calculator | – | data.gov.in (AGMARKNET) |
 | **Live Weather** – current conditions, 7-day forecast, rule-based farm alerts | – | Open-Meteo |
 | **Crop Calendar** – priority 1/2/3 tasks, calendar + list views, filters, overdue, edit/reschedule/delete | ✔ | Your tasks in MongoDB |
 | **Agricultural Products** – 30 hand-checked real products with links to the seller | – | `server/data/products.json` |
@@ -31,7 +32,7 @@ CropNexus helps a farmer decide what to grow, check a sick leaf, check the weath
 | **Farming Resources** – government schemes with official links, agriculture news | – | `schemes.json` + RSS feeds |
 | **About / Contact** – transparent about models vs APIs vs rules; validated contact form with spam protection | – | – |
 
-Plus: **6-step sign-up (name → age with an age-range guide → email → mobile → password → confirm; no OTP or verification step)**, login/logout with a 3-minute cooldown, password reset by email, feedback with 1–5 stars, live community statistics (registered users and users online now — shown **only** on the public landing page and the signed-in Home page), profile avatars, 9 interface languages (see limitations), light/dark theme, reduced-motion support.
+Plus: **6-step sign-up (name → age with live age chart → email → mobile → password → confirm; no OTP or verification step)**, login/logout with a 3-minute cooldown, password reset by email, feedback with 1–5 stars, live header statistics, profile avatars, 9 interface languages (see limitations), light/dark theme, reduced-motion support.
 
 The "AI illness prediction" idea in the requirements is the **Plant Disease Detector** that already existed; it was improved (file-type/size checks, low-confidence warning, keyboard-accessible upload) rather than duplicated.
 
@@ -41,10 +42,10 @@ The "AI illness prediction" idea in the requirements is the **Plant Disease Dete
  Browser (React + TS, Vite)  ──/api──▶  Express + MongoDB  ──HTTP──▶  FastAPI (Python)
    :5173 (dev) / served by Express        :5050                         :8000
                                           auth · sessions · calendar    crop RandomForest · leaf CNN · soil CNN
-                                          weather/RSS proxies       soil-test rules
+                                          market/weather/RSS proxies    soil-test rules
                                           MongoDB localhost:27017
                                                 │
-                                                └── Open-Meteo · RSS feeds (server-side, keys never reach the browser)
+                                                └── data.gov.in · Open-Meteo · RSS feeds (server-side, keys never reach the browser)
 ```
 
 | Layer | Folder | Responsibility |
@@ -63,9 +64,10 @@ Requirements: Node 18.17+ (22 recommended), Python 3.10+, MongoDB running on `lo
 # 1. Environment file
 cp .env.example .env            # Windows: copy .env.example .env
 #    then set JWT_SECRET to a long random value (see the comment inside)
-
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
 # 2. Python deps (AI service)
-pip install -r ml_service/requirements.txt     # pinned and tested on Python 3.13; on another Python version install the same packages without the pins
+pip install -r ml_service/requirements.txt
 
 # 3. Node deps (root helper + server + frontend)
 npm run setup
@@ -88,15 +90,18 @@ Everything is documented in [`.env.example`](.env.example). No real secret is sh
 |---|---|---|---|
 | JWT secret | `JWT_SECRET` | login sessions | **required** – set a long random value |
 | MongoDB | `MONGO_URI`, `MONGO_USERS_COLLECTION` | everything | defaults to `mongodb://localhost:27017/CROPNEXUS`, `USERS` |
+| **Government market data** | `DATA_GOV_API_KEY` (free, https://data.gov.in → My Account) | Live Market | Market page shows a clear "not configured" notice; nothing is invented |
+| Market snapshot interval | `MARKET_REFRESH_HOURS` (6) | price history, gainers/losers | – |
 | **Email (SMTP)** | `SMTP_HOST/PORT/SECURE/USER/PASS/FROM` | password-reset links, contact forwarding | links/messages are printed in the server terminal (dev) and never returned by the API; production refuses to "send" |
 | Contact page | `CONTACT_DEVELOPER_NAME`, `CONTACT_DEVELOPER_PHONE`, `CONTACT_DEVELOPER_EMAIL`, `CONTACT_TO_EMAIL`, `CONTACT_RATE_LIMIT` | public details + inbox | nothing is shown that you did not provide |
 | Rate limits | `RATE_LIMIT_MAX`, `SEND_RATE_LIMIT_MAX`, `PUBLIC_RATE_LIMIT_MAX` | abuse protection | sensible defaults |
 | Weather | – (Open-Meteo needs no key) | Weather, Water | – |
 
-MongoDB collections in `CROPNEXUS`: `USERS`, `AUTH_EVENTS`, `HISTORY`, `FEEDBACK`, `TASKS` (calendar), `CONTACT_MESSAGES`.
+MongoDB collections in `CROPNEXUS`: `USERS`, `AUTH_EVENTS`, `HISTORY`, `FEEDBACK`, `TASKS` (calendar), `MARKET_PRICES` (price snapshots), `CONTACT_MESSAGES`.
 
 ## 🧭 Feature guide
 
+- **Live Market** – The government feed returns *today's* prices only. The server stores a snapshot every `MARKET_REFRESH_HOURS` into `MARKET_PRICES`; the **price chart and gainers/losers fill in as days accumulate** (the UI says so instead of faking a chart). The profit/loss calculator is plain arithmetic on numbers you type and is labelled "your estimate". **There is no price forecast** – none is made up. Shown as ₹ per quintal with price date, retrieval time and attribution; cached 15 min with stale fallback; loading/empty/error/not-configured states.
 - **Live Weather / Water** – Open-Meteo (keyless, CC BY 4.0). Farm alerts (heat, frost, rain, wind, irrigation) are threshold rules and are labelled "estimates". The Water plan applies the FAO-56 method (ET₀ × Kc − effective rain against the soil's available water) for 14 crops × 6 soil types × 3 irrigation methods; assumptions are listed with every plan, and irrigation days can be saved to the Crop Calendar.
 - **Crop Calendar** – tasks belong to the signed-in user (server-side check on every call), priorities 1 (high, red) / 2 (amber) / 3 (green) are also written out as text, filters for date/status/priority, overdue detection, create/edit/complete/reschedule/delete.
 - **Products** – dynamic from `products.json`; search, category filter, details dialog, safe external links (`rel="noopener noreferrer"`), fallback image when a photo is missing or fails. Prices are the seller's price on the date checked and can change.
@@ -112,25 +117,6 @@ MongoDB collections in `CROPNEXUS`: `USERS`, `AUTH_EVENTS`, `HISTORY`, `FEEDBACK
 | `server/data/schemes.json` | 18 schemes with `officialUrl`, `status` (`active`/`unconfirmed`/`closed`), `lastVerified` | Edit, and confirm on the official site. 15 are central schemes, 3 state schemes – the state list is **not** complete |
 | `server/data/news_sources.json` | RSS feeds | Add verified feed URLs |
 | `docs/DATA_SOURCES.md` | Research notes on every external source, licences, quirks | – |
-
-## 🎨 Interface notes (v9, updated in v10)
-
-The visual layer was restyled in the spirit of the animated React component kits (such as [Skiper UI](https://skiper-ui.com)): floating glass navbar, sliding active-page pill, icon tiles that fill on hover, glow-follow cards, a feature ticker, count-up numbers and scroll reveals. **No Skiper UI source code is included** — the site is a Next.js/shadcn kit with free and paid parts that were not reachable while building, so every component here is original code in `frontend/src/components/` (`motion.tsx`, `icons.tsx`, `Navbar.tsx`, `Footer.tsx`, `FeatureSections.tsx`, `LiveStats.tsx`). If you later license a Skiper component, copy it in and keep its attribution.
-
-- **Libraries added:** [`motion`](https://motion.dev) (animation, loaded through `LazyMotion`), [`lucide-react`](https://lucide.dev) (icons — they replace the old emoji), `@fontsource-variable/geist` and `@fontsource-variable/bricolage-grotesque` (fonts are bundled, so no Google Fonts request).
-- **Fonts:** Bricolage Grotesque for headings, Geist for text.
-- **Navbar:** floating glass bar, sliding active pill, icon-tile Features menu with staggered items, animated sun/moon theme toggle. **v10:** on desktop the bar scrolls away with the page; on phones it is attached flush to the top edge and stays there, with the menu button at the top-right (also after login).
-- **Footer:** dark canopy-green footer with icon links, back-to-top button and an outlined wordmark.
-- **Motion rules:** nothing flips, rotates in 3-D or tilts; reveals and counters run once; everything is disabled for visitors who prefer reduced motion (`MotionConfig reducedMotion="user"` + CSS).
-- Live statistics are still shown **only** on the landing page and the signed-in Home page.
-
-## 🎨 Layout rules (v8, still in force)
-
-- **Features menu** – opens on mouse hover, on *keyboard focus* (Tab to "Features", then Tab/Arrow keys through the items, Esc closes and returns focus), and by click/tap (phones, tablets, touch laptops). The panel is flush with the button so the pointer never loses it, and it is clamped inside the viewport.
-- **Feature sections** – each feature on the landing page is a split layout: the picture fills one half of the container and the detailed description the other, alternating left/right on wide screens and stacking (picture first) on phones. There are **no flip animations, 3-D rotations, tilt or hover-triggered movement** anywhere; the hero is a flat illustration.
-- **Live statistics** – *registered users* and *online now* appear **only** on the public landing page and the signed-in Home page (`frontend/src/components/LiveStats.tsx`). The live connection (`/api/stats/stream`) is opened only while one of those two pages is mounted and closed when you leave; the sign-up age step shows a plain age-range guide with no counts.
-- **Quality of life** – skip-to-content link, visible focus rings, skeleton loading states, a short page fade-in, consistent page headers, and `prefers-reduced-motion` support.
-- `server/test/ui_check.py` is the browser check used for these items (Playwright for Python; start `server/test/e2e-server.ts` on port 5050 and `npm run dev --prefix frontend` first).
 
 ## 🛡️ Authentication & security
 
@@ -154,6 +140,7 @@ Private routes need the `cn_session` cookie (set by login/signup; the web app se
 | `GET /api/stats` · `/api/stats/stream` | – | live statistics (incl. age groups) |
 | `PATCH /api/profile` · `/api/feedback…` | ✔ | profile, reviews |
 | `POST /api/advisory` · `POST /api/leaf-disease` · `GET/DELETE /api/history` | ✔ | ML features + per-user history |
+| `GET /api/market/status` `/prices` `/history` `/movers` | – | market data (`commodity`, `state`, `market`, `days` filters) |
 | `GET /api/weather/search?q=` · `GET /api/weather?lat=&lon=` | – | place search, forecast + insights |
 | `GET /api/water/options` · `POST /api/water/plan` | – | irrigation plan |
 | `GET/POST/PATCH/DELETE /api/calendar` | ✔ | tasks (`status`, `priority`, `from`, `to` filters) |
@@ -168,28 +155,26 @@ FastAPI (docs at <http://localhost:8000/docs>): `/health`, `/crops`, `/predict/c
 ## 🧪 Testing
 
 ```bash
-npm test                       # Express API tests (44): production-config checks, health/headers, cookie modes, auth, signup without OTP, lockout, cooldown, reset, calendar authz, weather, water FAO-56, products, resources, contact, soil
-cd ml_service && pip install -r requirements-dev.txt && pytest -q   # FastAPI tests (3): 30 crops, provenance flags, leaf + soil prediction, soil-test rules, key required in production
+npm test                       # Express API tests (40): auth, signup without OTP, lockout, cooldown, reset, calendar authz, market (fake provider), weather, water FAO-56, products, resources, contact, soil
+cd ml_service && pytest -q     # FastAPI tests: 30 crops, provenance flags, leaf + soil prediction, soil-test rules
 npm run typecheck              # TypeScript for server + frontend
 npm run build                  # production build of the frontend + server
 ```
 
-The Express tests run against a tiny in-memory stand-in for the MongoDB driver and a **fake HTTP provider** for Open-Meteo / RSS, so they need no database or network. **No test in this ZIP calls the real Open-Meteo, RSS feeds or an SMTP server** – see limitations.
+The Express tests run against a tiny in-memory stand-in for the MongoDB driver and a **fake HTTP provider** for data.gov.in / Open-Meteo / RSS, so they need no database or network. **No test in this ZIP calls the real data.gov.in, Open-Meteo or an SMTP server** – see limitations.
 
 ## 📸 Screenshots
 
-Taken in a development sandbox without the AI service, so Soil shows its honest "unavailable" state and the live numbers are tiny (only the accounts created during the test).
+Taken in a development sandbox without an API key or the AI service, so Market and Soil show their honest "not configured / unavailable" states and the statistics read 0.
 
 | | |
 |---|---|
-| **Landing** ![Landing](screenshots/landing.png) | **Split-layout feature section** ![Feature](screenshots/feature-section.png) |
-| **Features menu (hover / keyboard focus)** ![Menu](screenshots/features-menu.png) | **Sign-up step 2 (age-range guide)** ![Step 2](screenshots/signup-step2.png) |
-| **Home (signed in)** ![Home](screenshots/home.png) | **Dark mode** ![Dark](screenshots/dark-mode.png) |
-| **Crop Calendar** ![Calendar](screenshots/calendar.png) | |
+| **Landing** ![Landing](screenshots/landing.png) | **Feature card flipped** ![Flip](screenshots/feature-flip.png) |
+| **Features menu** ![Menu](screenshots/features-menu.png) | **Sign-up step 2 (age chart)** ![Step 2](screenshots/signup-step2.png) |
+| **Market** ![Market](screenshots/market.png) | **Crop Calendar** ![Calendar](screenshots/calendar.png) |
 | **Products** ![Products](screenshots/products.png) | **Soil Health** ![Soil](screenshots/soil.png) |
-| **Water Management** ![Water](screenshots/water.png) | **Plant disease** ![Leaf](screenshots/leaf-disease.png) |
-| **Mobile landing** ![Mobile](screenshots/mobile-landing.png) | **Mobile Features menu (tap)** ![Mobile menu](screenshots/mobile-menu.png) |
-| **Mobile, signed in (menu button top-right)** ![Mobile signed in](screenshots/mobile-loggedin.png) | |
+| **Water Management** ![Water](screenshots/water.png) | **Dark mode** ![Dark](screenshots/dark-mode.png) |
+| **Mobile** ![Mobile](screenshots/mobile-landing.png) | **Plant disease** ![Leaf](screenshots/leaf-disease.png) |
 
 ## 🪱 Soil health model
 
@@ -221,21 +206,10 @@ The leaf training images (PlantVillage, ≈ 42 MB) are not in this ZIP; the trai
 
 ## 🚢 Deployment
 
-**Full step-by-step guide (free hosting): [DEPLOYMENT.md](DEPLOYMENT.md)** – website on Vercel (or Netlify), API on Render, MongoDB Atlas, AI service on Google Cloud Run.
-
-What ships for production:
-
-| File | Purpose |
-|---|---|
-| `Dockerfile` (project root) | AI service image (FastAPI + TensorFlow-CPU + models); refuses to start without `ML_SERVICE_KEY` |
-| `server/Dockerfile` | API image (Node 22, non-root, health check) |
-| `render.yaml` | Render Blueprint for the API |
-| `frontend/vercel.json`, `frontend/netlify.toml` | SPA fallback, `/api` proxy to the API, security headers, caching |
-| `.github/workflows/ci.yml` | Type-check, API tests, frontend build, AI-service tests on every push |
-| `.github/workflows/keepalive.yml` | Optional ping that keeps the free API awake |
-| `.env.example`, `frontend/.env.example` | Every setting, documented |
-
-Production behaviour: with `NODE_ENV=production` the API validates its configuration at start-up and exits with a clear list of problems (weak `JWT_SECRET`, localhost database, non-https origin, missing AI-service URL); cookies are `HttpOnly` + `Secure`; `/healthz` (liveness) and `/api/health` (database + AI service); one log line per request without personal data; graceful shutdown; CSP/HSTS headers.
+1. Set `NODE_ENV=production`, a strong `JWT_SECRET`, `CLIENT_ORIGIN=https://your-domain`, your MongoDB URI, SMTP settings and `DATA_GOV_API_KEY`.
+2. `npm run build`, then run `npm start` (Express serves the built site) and the FastAPI service (`uvicorn main:app --port 8000`) behind HTTPS (e.g. nginx or a platform proxy). Cookies are `Secure` in production, so HTTPS is required.
+3. Keep `ML_SERVICE_URL` private (or set `ML_SERVICE_KEY` on both services). Back up MongoDB.
+4. Replace the soil-photo dataset/model if you intend commercial use (the dataset is non-commercial).
 
 ## 🧬 Data & model evaluation (read this before trusting a number)
 
@@ -260,18 +234,18 @@ The 99 % on real rows reflects a clean, well-separated public dataset, not guara
 
 ## ⚠️ Honest limitations
 
-- **No live testing of external services.** Open-Meteo, the RSS feeds and SMTP were *not* reachable from the build sandbox. Their integrations are covered by tests with fake providers and follow the documented response formats; **run the app once with internet access and your SMTP settings and check the Weather, Water, Resources and email flows before relying on them.**
+- **No live testing of external services.** Data.gov.in, Open-Meteo, the RSS feeds and SMTP were *not* reachable from the build sandbox. Their integrations are covered by tests with fake providers and follow the documented response formats; **run the app once with your own `DATA_GOV_API_KEY`, internet access and SMTP settings and check the Market, Weather, Water, Resources and email flows before relying on them.** If data.gov.in changes its response format or blocks a request, the Market page shows an error or "not configured" state rather than invented numbers.
 - **No identity verification at sign-up.** Email addresses and phone numbers are not verified (by request), so anyone can register with someone else's details.
+- **Market history starts empty.** The government feed has only the current day; charts and gainers/losers appear after the server has stored snapshots on at least two different dates. No price forecast is provided.
 - **Soil photo model is weak** (30.8 % test accuracy; see above) and the dataset is non-commercial. Soil-test ratings are general ranges, not recommendations for your crop and region.
 - The 8 synthetic-data crops in the crop model are demonstrations of the pipeline, not validated recommendations.
 - Leaf model covers **10 classes / 5 crops** (Apple, Corn, Grape, Potato, Tomato) from lab-style photos; an unrelated photo still gets a best-guess label (low-confidence warning below 50 %).
 - Water plans are FAO-56 estimates from a forecast, not soil-moisture measurements. Weather alerts are simple rules.
 - Products and schemes are hand-curated snapshots (checked 17 Oct 2026) and go stale; the state-scheme list is small. Product prices change; scheme eligibility depends on your state and landholding.
-- **Languages:** the interface has 9 languages, but the **new feature pages (Weather, Calendar, Products, Soil, Water, Resources, About, Contact), the feature-card descriptions and the sign-up step texts are English-only**; other languages show English there (navigation labels are translated). Translations were written by an AI model and should be reviewed by a native speaker.
+- **Languages:** the interface has 9 languages, but the **new feature pages (Market, Weather, Calendar, Products, Soil, Water, Resources, About, Contact), the feature-card descriptions and the sign-up step texts are English-only**; other languages show English there (navigation labels are translated). Translations were written by an AI model and should be reviewed by a native speaker.
 - Express tests use an in-memory MongoDB stand-in; run the app against your real MongoDB once to confirm.
 - The app is a decision-support tool, not a certified diagnostic or financial tool – confirm important decisions with a local agriculture officer.
-- Live statistics and reviews reflect only your own database; on a fresh install they start at zero.
-- New v8 section copy (feature descriptions, age-range guide in non-English languages) falls back to English where a translation is missing.
+- Live statistics, the age chart and reviews reflect only your own database; on a fresh install they start at zero.
 
 ## 🩹 Troubleshooting
 
