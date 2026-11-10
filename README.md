@@ -55,9 +55,6 @@ CropNexus helps a farmer decide **what to grow**, check a **sick leaf**, view **
 | **AI / ML** | ![ML](https://skillicons.dev/icons?i=python,fastapi,tensorflow,sklearn&theme=light) |
 
 </div>
-
-Extras: `motion` (animations), `lucide-react` (icons), Geist + Bricolage Grotesque fonts, Open-Meteo (weather).
-
 ---
 
 ## ✨ Features
