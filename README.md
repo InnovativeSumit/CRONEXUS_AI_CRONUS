@@ -2,7 +2,7 @@
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:166534,100:84cc16&height=200&section=header&text=CropNexus&fontSize=64&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=AI-Powered%20Farmer%20Advisory&descSize=20&descAlignY=60" width="100%" alt="CropNexus banner" />
 
-<img src="frontend/public/logo.png" width="110" alt="CropNexus logo" />
+<!-- <img src="frontend/public/logo.png" width="110" alt="CropNexus logo" /> -->
 
 <a href="https://git.io/typing-svg">
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&pause=1000&color=16A34A&center=true&vCenter=true&width=640&lines=Crop+prediction+%7C+Leaf+disease+detection;Live+weather+%7C+Smart+irrigation+planning;Soil+health+%7C+Crop+calendar+%7C+Govt+schemes;Built+for+farmers.+Powered+by+AI." alt="Typing animation" />
@@ -34,7 +34,7 @@
 
 ## 📋 Table of Contents
 
-[Overview](#-overview) · [Tech Stack](#-tech-stack) · [Features](#-features) · [Architecture](#-architecture) · [Security](#-security) · [Model Results](#-model-results) · [Limitations](#-limitations)
+[Overview](#-overview) · [Tech Stack](#-tech-stack) · [Features](#-features) · [Security](#-security) · [Model Results](#-model-results) · [Limitations](#-limitations)
 
 ---
 
@@ -56,20 +56,6 @@ CropNexus helps a farmer decide **what to grow**, check a **sick leaf**, view **
 
 </div>
 
-| Technology | Version | Role |
-|---|---|---|
-| <img src="https://skillicons.dev/icons?i=react" width="24" /> React | 19 | UI framework |
-| <img src="https://skillicons.dev/icons?i=ts" width="24" /> TypeScript | 5.x | Typed frontend + backend |
-| <img src="https://skillicons.dev/icons?i=vite" width="24" /> Vite | Latest | Dev server and build |
-| <img src="https://skillicons.dev/icons?i=tailwind" width="24" /> Tailwind CSS | 4 | Styling |
-| <img src="https://skillicons.dev/icons?i=nodejs" width="24" /> Node.js | 22 | Runtime |
-| <img src="https://skillicons.dev/icons?i=express" width="24" /> Express | Latest | REST API |
-| <img src="https://skillicons.dev/icons?i=mongodb" width="24" /> MongoDB | Latest | Users, history, tasks |
-| <img src="https://skillicons.dev/icons?i=python" width="24" /> Python | 3.13 | ML service |
-| <img src="https://skillicons.dev/icons?i=fastapi" width="24" /> FastAPI | Latest | Model serving |
-| <img src="https://skillicons.dev/icons?i=tensorflow" width="24" /> TensorFlow | CPU | Leaf + soil CNNs |
-| <img src="https://skillicons.dev/icons?i=sklearn" width="24" /> scikit-learn | 1.8 | Crop Random Forest |
-
 Extras: `motion` (animations), `lucide-react` (icons), Geist + Bricolage Grotesque fonts, Open-Meteo (weather).
 
 ---
@@ -89,19 +75,6 @@ Extras: `motion` (animations), `lucide-react` (icons), Geist + Bricolage Grotesq
 | 📬 **About / Contact** | – | Transparent model vs API vs rules table, spam-protected contact form | – |
 
 **Also included:** 6-step sign-up, password reset by email, feedback with 1–5 stars, live community stats (landing and Home only), profile avatars, **9 languages**, light/dark theme, reduced-motion support, glass navbar, scroll reveals and count-up numbers.
-
----
-
-## 🏗️ Architecture
-
-```
-Browser (React + TS)  ──/api──▶  Express + MongoDB  ──HTTP──▶  FastAPI (Python)
-      :5173                          :5050                        :8000
-                                auth · sessions · calendar     crop RF · leaf CNN · soil CNN
-                                weather/RSS proxies
-```
-
-The browser never calls FastAPI or third-party APIs directly. Express validates input, enforces per-user access and caches upstream calls.
 
 ---
 
