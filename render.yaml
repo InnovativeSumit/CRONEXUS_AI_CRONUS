@@ -1,0 +1,31 @@
+# Render Blueprint: creates the Node API as a free web service.  (Dashboard -> New -> Blueprint -> pick this repo)
+# Values marked sync:false are asked for in the dashboard and are never stored in Git.
+services:
+  - type: web
+    name: cropnexus-api
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: node dist/index.js
+    healthCheckPath: /healthz
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: MONGO_URI
+        sync: false            # Atlas string; the database name goes in the path, e.g. ...mongodb.net/CROPNEXUS?retryWrites=true
+      - key: CLIENT_ORIGIN
+        sync: false            # e.g. https://cropnexus.vercel.app  (no trailing slash)
+      - key: ML_SERVICE_URL
+        sync: false            # e.g. https://cropnexus-ml-xxxxx.a.run.app
+      - key: ML_SERVICE_KEY
+        sync: false            # must equal the key you gave the AI service
+      - key: TRUST_PROXY
+        value: "2"             # Vercel rewrite -> Render. Use 1 if the browser calls Render directly.
+      - key: COOKIE_SAMESITE
+        value: strict          # use "none" only if the browser calls the API on a different domain

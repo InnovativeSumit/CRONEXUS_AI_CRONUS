@@ -1,0 +1,24 @@
+# Python dependencies for the whole project (FastAPI AI service + notebooks + legacy Flask app).
+# The AI service on its own only needs ml_service/requirements.txt.
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+httpx
+scikit-learn
+pandas
+numpy
+joblib
+xgboost
+matplotlib
+seaborn
+tensorflow
+Pillow
+python-dotenv
+# --- only for the legacy Flask app in app/ ---
+Flask
+Flask-Cors
+Werkzeug
+pymongo
+bcrypt
+PyJWT
