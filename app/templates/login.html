@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{{ t.auth_login_title }} — CropNexus{% endblock %}
+{% block content %}
+<section class="section container narrow auth-section">
+  <div class="section-head">
+    <span class="eyebrow">CropNexus</span>
+    <h1>{{ t.auth_login_title }}</h1>
+    <p>{{ t.auth_login_subtitle }}</p>
+  </div>
+
+  <form class="card form-card" method="POST" action="{{ url_for('login', next=request.args.get('next')) }}">
+    <div class="field">
+      <label for="email">✉️ {{ t.auth_email }}</label>
+      <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@example.com">
+    </div>
+    <div class="field">
+      <label for="password">🔒 {{ t.auth_password }}</label>
+      <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="••••••••">
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">{{ t.auth_login_button }}</button>
+  </form>
+
+  <p class="hint-text auth-switch">
+    {{ t.auth_no_account }} <a href="{{ url_for('signup') }}">{{ t.auth_signup_link }}</a>
+  </p>
+</section>
+{% endblock %}

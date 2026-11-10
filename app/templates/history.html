@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Advisory History — CropNexus{% endblock %}
+{% block content %}
+<section class="section container">
+  <div class="section-head left">
+    <span class="eyebrow">{{ t.history_eyebrow }}</span>
+    <h1>{{ t.history_title }}</h1>
+    <p>{{ t.history_subtitle }}</p>
+  </div>
+
+  {% if records %}
+  <div class="table-wrap card">
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Location</th>
+          <th>Soil</th>
+          <th>Recommended Crop</th>
+          <th>Confidence</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in records %}
+        <tr>
+          <td>{{ r.timestamp.replace("T", " ") }}</td>
+          <td>{{ r.location or "—" }}</td>
+          <td>{{ r.soil_type or "—" }}</td>
+          <td><span class="chip">{{ r.recommended_crop|capitalize }}</span></td>
+          <td>{{ r.top_crops[0].confidence }}%</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="card empty-state">
+    <p>No advisories yet — <a href="{{ url_for('advisory') }}">run your first one</a>.</p>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

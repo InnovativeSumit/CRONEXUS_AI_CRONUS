@@ -1,0 +1,29 @@
+[
+  {
+    "id": "business-standard-agriculture",
+    "name": "Business Standard - Agriculture",
+    "feedUrl": "https://www.business-standard.com/rss/industry/agriculture-21704.rss",
+    "siteUrl": "https://www.business-standard.com/industry/agriculture",
+    "language": "en",
+    "note": "RSS 2.0; fetched with items dated 16-18 Oct 2026 (crop output, monsoon, farm policy). Occasional off-topic items are tagged Agriculture.",
+    "verifiedAt": "2026-10-18"
+  },
+  {
+    "id": "rural-voice-latest",
+    "name": "Rural Voice - Latest Posts",
+    "feedUrl": "https://www.ruralvoice.in/rss/latest-posts",
+    "siteUrl": "https://www.ruralvoice.in/",
+    "language": "hi",
+    "note": "RSS 2.0; fetched with ~30 items dated up to 18 Oct 2026. Channel declares Hindi; item titles are mostly Hindi with some English terms. Some titles contain double-encoded '&#45;' hyphens.",
+    "verifiedAt": "2026-10-18"
+  },
+  {
+    "id": "agri-farming",
+    "name": "Agri Farming",
+    "feedUrl": "https://agrifarming.in/feed",
+    "siteUrl": "https://www.agrifarming.in/",
+    "language": "en",
+    "note": "RSS 2.0; fetched with items dated up to 15 Oct 2026. General farming how-to content, not limited to Indian policy news; lower relevance.",
+    "verifiedAt": "2026-10-18"
+  }
+]

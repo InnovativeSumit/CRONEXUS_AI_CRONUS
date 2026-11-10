@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}CropNexus — AI Crop Advisory System{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow">{{ t.landing_eyebrow }}</span>
+      <h1>{{ t.home_title }} <span class="highlight">CropNexus</span></h1>
+      <p class="lead">{{ t.home_lead }}</p>
+      <div class="hero-cta">
+        <a href="{{ url_for('advisory') }}" class="btn btn-primary">{{ t.home_cta_advisory }}</a>
+        <a href="{{ url_for('leaf_disease') }}" class="btn btn-ghost">{{ t.home_cta_leaf }}</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>{{ (accuracy*100)|round(2) }}%</strong><span>{{ t.home_stat_accuracy }}</span></div>
+        <div><strong>{{ n_classes }}</strong><span>{{ t.home_stat_crops }}</span></div>
+        <div><strong>{{ model_name }}</strong><span>{{ t.home_stat_model }}</span></div>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="hero-orb"></div>
+      <div class="logo-ring">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="CropNexus logo" class="hero-logo">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section container">
+  <div class="section-head">
+    <h2>{{ t.landing_features_title }}</h2>
+    <p>From soil to season, every recommendation is grounded in data.</p>
+  </div>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon">📍</div>
+      <h3>Location &amp; Soil Aware</h3>
+      <p>Enter your location, soil type and NPK values — the system tailors advice to your exact field conditions.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🤖</div>
+      <h3>ML-Powered Recommendation</h3>
+      <p>A tuned Random Forest model trained on 2,200+ agricultural records predicts the top matching crops with confidence scores.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🧪</div>
+      <h3>Fertilizer Guidance</h3>
+      <p>Your soil's N-P-K is compared against the ideal range for the recommended crop to flag surplus or deficiency.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💧</div>
+      <h3>Irrigation Schedule</h3>
+      <p>Rainfall and humidity patterns are translated into a practical watering frequency for the season.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <h3>Transparent Model</h3>
+      <p>See exactly which algorithm was used, how it was tuned, and how it compares to 8 other models we tested.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🍃</div>
+      <h3>Leaf Disease Detection</h3>
+      <p>Upload a leaf photo and a trained CNN identifies scab, rust, blight and more — with curing steps for each.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section container how-it-works">
+  <div class="section-head">
+    <h2>Three steps to a smarter harvest</h2>
+  </div>
+  <div class="steps-grid">
+    <div class="step">
+      <span class="step-num">1</span>
+      <h4>Enter field data</h4>
+      <p>Soil N-P-K, pH, temperature, humidity, rainfall and location.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">2</span>
+      <h4>AI analyzes conditions</h4>
+      <p>The model compares your inputs against thousands of learned patterns.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">3</span>
+      <h4>Get a full advisory</h4>
+      <p>Best crop, fertilizer tips, irrigation plan and disease watch-list.</p>
+    </div>
+  </div>
+  <div class="cta-banner">
+    <div>
+      <h3>Ready to plan your next crop?</h3>
+      <p>It takes less than a minute to get a data-driven recommendation.</p>
+    </div>
+    <a href="{{ url_for('advisory') }}" class="btn btn-primary">Start Advisory →</a>
+  </div>
+</section>
+
+{% endblock %}

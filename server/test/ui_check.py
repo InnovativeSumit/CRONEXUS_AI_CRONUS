@@ -1,0 +1,136 @@
+"""Browser check for the v8 UI rules (needs: pip install playwright && playwright install chromium).
+Start the API stand-in (cd server && PORT=5050 npx tsx test/e2e-server.ts) and the frontend (npm run dev --prefix frontend) first,
+then: python server/test/ui_check.py   (screenshots go to $SHOTS or ./ui-shots)."""
+import os, re, sys, time, json
+from playwright.sync_api import sync_playwright
+BASE=os.environ.get("BASE","http://127.0.0.1:5173")
+SHOTS=os.environ.get("SHOTS","./ui-shots"); os.makedirs(SHOTS,exist_ok=True)
+res=[]
+def ok(name,cond,extra=""):
+    res.append((name,bool(cond))); print(("PASS" if cond else "FAIL"),name,extra)
+with sync_playwright() as p:
+    b=p.chromium.launch()
+    ctx=b.new_context(viewport={"width":1440,"height":900}); pg=ctx.new_page()
+    reqs=[]
+    pg.on("request",lambda r: reqs.append(r.url) if "/api/stats" in r.url else None)
+    errs=[]; pg.on("pageerror",lambda e: errs.append(str(e))); pg.on("console",lambda m: errs.append(m.text) if m.type=="error" and "ECONNRESET" not in m.text else None)
+    pg.goto(BASE+"/"); pg.wait_for_selector("text=Everything a farmer needs"); pg.wait_for_timeout(1200)
+    ok("landing shows Registered users", pg.locator("text=Registered users").count()==1)
+    ok("landing shows Online now", pg.locator("text=Online now").count()==1)
+    ok("landing has no flip/tilt/iso classes", pg.evaluate("document.querySelectorAll('[class*=flip],[class*=tilt],[class*=iso-]').length")==0)
+    hd=pg.locator("header").first
+    ok("desktop: header visible at top of page", hd.is_visible() and hd.bounding_box()["y"]>=0)
+    pg.evaluate("window.scrollTo(0,1400)"); pg.wait_for_timeout(250)
+    bb=hd.bounding_box(); ok("desktop: header scrolls away with the page", bb["y"]+bb["height"]<=0, str(bb))
+    pg.evaluate("window.scrollTo(0,0)"); pg.wait_for_timeout(250)
+    ok("8 feature sections", pg.locator("article[aria-labelledby^=fs-]").count()==8)
+    # alternate: image x position
+    xs=pg.evaluate("""[...document.querySelectorAll('article[aria-labelledby^=fs-]')].map(a=>{const ch=[...a.children];const art=ch[0].getBoundingClientRect(), txt=ch[1].getBoundingClientRect();const r=a.getBoundingClientRect();return [art.left<txt.left, Math.round(art.width/r.width*100), Math.round(txt.width/r.width*100)]})""")
+    ok("image half / text half (50/50)", all(abs(w-50)<=1 and abs(t-50)<=1 for _,w,t in xs), str(xs[:2]))
+    ok("layouts alternate", all(xs[i][0]==(i%2==0) for i in range(8)), str([x[0] for x in xs]))
+    pg.screenshot(path=SHOTS+"/landing_top.png")
+    pg.locator("article[aria-labelledby=fs-leaf]").scroll_into_view_if_needed(); pg.screenshot(path=SHOTS+"/landing_features.png")
+    # hover on feature article: no transform
+    a=pg.locator("article[aria-labelledby=fs-leaf]"); a.hover(); pg.wait_for_timeout(300)
+    ok("hover causes no transform on feature section", pg.evaluate("getComputedStyle(document.querySelector('article')).transform")=="none")
+    pg.evaluate("window.scrollTo(0,0)")
+    # dropdown hover
+    btn=pg.get_by_role("button",name=re.compile("Features"))
+    btn.hover(); pg.wait_for_timeout(350)
+    menu=pg.locator("#features-menu")
+    ok("dropdown opens on hover", menu.is_visible())
+    bb=btn.bounding_box(); mb=menu.bounding_box()
+    ok("dropdown inside viewport", mb["x"]>=0 and mb["x"]+mb["width"]<=1440, str(mb))
+    # move pointer slowly down into menu without closing
+    it=pg.get_by_role("menuitem",name=re.compile("Live Weather"))
+    ib=it.bounding_box()
+    pg.mouse.move(bb["x"]+bb["width"]/2, bb["y"]+bb["height"]+2, steps=4)
+    pg.mouse.move(ib["x"]+10, ib["y"]+10, steps=8); pg.wait_for_timeout(250)
+    ok("dropdown stays open while moving to item", menu.is_visible())
+    pg.screenshot(path=SHOTS+"/dropdown_hover.png", clip={"x":0,"y":0,"width":1440,"height":480})
+    pg.mouse.move(700,700, steps=3); pg.wait_for_timeout(350)
+    ok("dropdown closes on leave", not menu.is_visible())
+    # keyboard (fresh load so the focus-navigation starting point is the top of the page)
+    pg.goto(BASE+"/"); pg.wait_for_selector("text=Everything a farmer needs"); pg.mouse.move(5,600)
+    pg.keyboard.press("Tab")
+    for _ in range(6):
+        if pg.evaluate("document.activeElement && /Features/.test(document.activeElement.textContent||'')"): break
+        pg.keyboard.press("Tab")
+    pg.wait_for_timeout(300)
+    ok("dropdown opens on keyboard focus", menu.is_visible())
+    pg.keyboard.press("Tab"); pg.wait_for_timeout(100)
+    ok("tab moves into first menu item", pg.evaluate("document.activeElement.getAttribute('role')")=="menuitem")
+    pg.keyboard.press("ArrowDown"); pg.keyboard.press("Escape"); pg.wait_for_timeout(300)
+    ok("escape closes + focus back on button", (not menu.is_visible()) and pg.evaluate("/Features/.test(document.activeElement.textContent)"))
+    # click on desktop pins
+    btn=pg.get_by_role("button",name=re.compile("Features")); menu=pg.locator("#features-menu")
+    btn.click(); pg.wait_for_timeout(250); ok("click opens (pinned)", menu.is_visible())
+    pg.mouse.move(700,700,steps=2); pg.wait_for_timeout(300); ok("pinned stays open after mouse leaves", menu.is_visible())
+    pg.mouse.click(300,700); pg.wait_for_timeout(300); ok("outside click closes", not menu.is_visible())
+    pg.get_by_role("button",name=re.compile("Features")).click(); pg.get_by_role("menuitem",name=re.compile("Live Weather")).click(); pg.wait_for_timeout(500)
+    ok("menu item navigates", pg.url.endswith("/weather"), pg.url)
+    n=len(reqs); pg.wait_for_timeout(1500)
+    ok("no stats requests on /weather after leaving landing", len(reqs)==n)
+    ok("weather page has no stats text", pg.locator("text=Registered users").count()==0 and pg.locator("text=Online now").count()==0)
+    # other public pages
+    for path in ["/products","/water","/resources","/about","/contact","/login","/signup"]:
+        pg.goto(BASE+path); pg.wait_for_timeout(700)
+        ok(f"{path}: no stats", pg.locator("text=/Registered users|Online now|Total logins/").count()==0)
+        pg.screenshot(path=f"{SHOTS}/d{path.replace('/','_')}.png")
+    # signup flow
+    email=f"t{int(time.time())}@example.com"
+    pg.goto(BASE+"/signup"); pg.wait_for_timeout(500)
+    pg.locator("form input:visible").first.fill("Asha Rao"); pg.get_by_role("button",name=re.compile("Next|Continue")).click()
+    pg.wait_for_timeout(400)
+    pg.locator("form input:visible").first.fill("27"); pg.wait_for_timeout(300)
+    ok("signup age step has no counts/LIVE", pg.locator("text=/LIVE|users/").count()==0)
+    pg.screenshot(path=SHOTS+"/signup_age.png")
+    pg.get_by_role("button",name=re.compile("Next|Continue")).click(); pg.wait_for_timeout(300)
+    pg.locator("form input:visible").first.fill(email); pg.get_by_role("button",name=re.compile("Next|Continue")).click(); pg.wait_for_timeout(300)
+    pg.locator("form input[type=tel]:visible, form input[inputmode=tel]:visible").first.fill("9"+str(int(time.time()))[-9:]); pg.get_by_role("button",name=re.compile("Next|Continue")).click(); pg.wait_for_timeout(300)
+    pw=pg.locator("input[type=password]").first; pw.fill("Farm@12345"); pg.get_by_role("button",name=re.compile("Next|Continue")).click(); pg.wait_for_timeout(300)
+    pg.locator("input[type=password]").first.fill("Farm@12345")
+    pg.get_by_role("button",name=re.compile("Register|Create|Sign")).last.click(); pg.wait_for_timeout(2000)
+    ok("signup lands on Home after registering", pg.locator("text=Everything a farmer needs").count()==0 and pg.locator("text=Registered users").count()==1, pg.url)
+    ok("home shows Online now", pg.locator("text=Online now").count()==1)
+    pg.screenshot(path=SHOTS+"/home.png")
+    pg.screenshot(path=SHOTS+"/home_full.png", full_page=True)
+    # stats value sanity
+    print("stats text:", pg.locator("section[aria-label*=statistics]").inner_text().replace("\n"," | "))
+    for path in ["/advisory","/leaf-disease","/history","/feedback","/profile","/calendar","/soil","/weather","/model-details"]:
+        pg.goto(BASE+path); pg.wait_for_timeout(900)
+        ok(f"{path}: no stats", pg.locator("text=/Registered users|Online now|Total logins/").count()==0)
+        pg.screenshot(path=f"{SHOTS}/a{path.replace('/','_')}.png")
+    print("console/page errors:",errs[:5])
+    # mobile
+    m=b.new_context(viewport={"width":390,"height":844},has_touch=True,is_mobile=True); mp=m.new_page()
+    mp.goto(BASE+"/"); mp.wait_for_timeout(1200)
+    ok("mobile: no horizontal overflow", mp.evaluate("document.documentElement.scrollWidth<=window.innerWidth"))
+    mp.screenshot(path=SHOTS+"/m_landing.png")
+    mp.get_by_role("button",name="Menu",exact=True).click(); mp.wait_for_timeout(200)
+    mp.get_by_role("button",name=re.compile("Features")).tap(); mp.wait_for_timeout(300)
+    ok("mobile: tap opens Features", mp.locator("#features-menu").is_visible())
+    mp.screenshot(path=SHOTS+"/m_dropdown.png")
+    mp.get_by_role("menuitem",name=re.compile("Agricultural Products")).tap(); mp.wait_for_timeout(600)
+    ok("mobile: item navigates", mp.url.endswith("/products"), mp.url)
+    mp.screenshot(path=SHOTS+"/m_products.png")
+    # mobile: header attached to the top edge while scrolling
+    mp.goto(BASE+"/about"); mp.wait_for_timeout(800); mp.evaluate("window.scrollTo(0,1500)"); mp.wait_for_timeout(300)
+    mb=mp.locator("header").first.bounding_box()
+    ok("mobile: header stays attached to the top while scrolled", abs(mb["y"])<=1 and abs(mb["x"])<=1 and mb["width"]>=389, str(mb))
+    # mobile after login: menu (three-line) button at the top-right
+    em2=f"m{int(time.time()*1000)}@example.com"; nxt=lambda: mp.get_by_role("button",name=re.compile("Next|Continue")).click()
+    mp.goto(BASE+"/signup"); mp.wait_for_timeout(700)
+    mp.locator("form input:visible").first.fill("Meena Devi"); nxt(); mp.wait_for_timeout(250)
+    mp.locator("form input:visible").first.fill("40"); nxt(); mp.wait_for_timeout(250)
+    mp.locator("form input:visible").first.fill(em2); nxt(); mp.wait_for_timeout(250)
+    mp.locator("form input[type=tel]:visible, form input[inputmode=tel]:visible").first.fill("7"+str(int(time.time()*1000))[-9:]); nxt(); mp.wait_for_timeout(250)
+    mp.locator("input[type=password]").first.fill("Farm@12345"); nxt(); mp.wait_for_timeout(250)
+    mp.locator("input[type=password]").first.fill("Farm@12345"); mp.get_by_role("button",name=re.compile("Register|Create|Sign")).last.click(); mp.wait_for_timeout(2200)
+    ok("mobile: signed in", mp.locator("text=Registered users").count()==1)
+    mbtn=mp.get_by_role("button",name="Menu",exact=True).bounding_box()
+    ok("mobile after login: menu button is at the top-right", mbtn["x"]+mbtn["width"]>=390-20 and mbtn["y"]<60, str(mbtn))
+    mp.screenshot(path=SHOTS+"/m_loggedin.png")
+    ok("mobile after login: no horizontal overflow", mp.evaluate("document.documentElement.scrollWidth<=window.innerWidth"))
+    b.close()
+print("\n%d/%d passed"%(sum(1 for _,c in res if c),len(res)))
