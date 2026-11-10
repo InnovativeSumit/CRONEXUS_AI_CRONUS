@@ -47,11 +47,13 @@ CropNexus helps a farmer decide **what to grow**, check a **sick leaf**, view **
 ## 🧰 Tech Stack
 
 <div align="center">
+  
 | Layer | Technologies |
 |---|---|
 | **Frontend** | ![React](https://skillicons.dev/icons?i=react,ts,vite,tailwind&theme=light) |
 | **Backend** | ![Node](https://skillicons.dev/icons?i=nodejs,express,mongodb&theme=light) |
 | **AI / ML** | ![ML](https://skillicons.dev/icons?i=python,fastapi,tensorflow,sklearn&theme=light) |
+
 </div>
 
 
