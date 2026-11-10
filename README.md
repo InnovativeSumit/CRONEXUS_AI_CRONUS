@@ -16,7 +16,7 @@
 
 </div>
 
----
+
 
 ## 📸 Screenshots
 
@@ -36,26 +36,24 @@
 
 [Overview](#-overview) · [Tech Stack](#-tech-stack) · [Features](#-features) · [Security](#-security) · [Model Results](#-model-results) · [Limitations](#-limitations)
 
----
+
 
 ## 🌾 Overview
 
 CropNexus helps a farmer decide **what to grow**, check a **sick leaf**, view **weather**, plan **irrigation**, keep a **task calendar** and find **government schemes**, all in one app.
 
----
+
 
 ## 🧰 Tech Stack
 
 <div align="center">
-
 | Layer | Technologies |
 |---|---|
 | **Frontend** | ![React](https://skillicons.dev/icons?i=react,ts,vite,tailwind&theme=light) |
 | **Backend** | ![Node](https://skillicons.dev/icons?i=nodejs,express,mongodb&theme=light) |
 | **AI / ML** | ![ML](https://skillicons.dev/icons?i=python,fastapi,tensorflow,sklearn&theme=light) |
-
 </div>
----
+
 
 ## ✨ Features
 
@@ -73,7 +71,7 @@ CropNexus helps a farmer decide **what to grow**, check a **sick leaf**, view **
 
 **Also included:** 6-step sign-up, password reset by email, feedback with 1–5 stars, live community stats (landing and Home only), profile avatars, **9 languages**, light/dark theme, reduced-motion support, glass navbar, scroll reveals and count-up numbers.
 
----
+
 
 ## 🛡️ Security
 
@@ -84,7 +82,6 @@ CropNexus helps a farmer decide **what to grow**, check a **sick leaf**, view **
 - 🔗 Reset links: random, hashed, single-use, 15-minute expiry
 - 🧱 `helmet`, zod validation, 12 MB upload limit, per-IP rate limits, contact honeypot
 
----
 
 ## 📊 Model Results
 
@@ -95,7 +92,7 @@ CropNexus helps a farmer decide **what to grow**, check a **sick leaf**, view **
 | **Leaf disease** | PlantVillage, 10 classes | **91.96 %** |
 | **Soil photo** | Phantom-fs, 7 soil types | 30.8 % (experimental) |
 
----
+
 
 ## ⚠️ Limitations
 
