@@ -1,0 +1,155 @@
+{
+  "model_name": "Small CNN (from scratch)",
+  "img_size": [
+    160,
+    160
+  ],
+  "n_classes": 7,
+  "classes": [
+    "Alluvial_Soil",
+    "Arid_Soil",
+    "Black_Soil",
+    "Laterite_Soil",
+    "Mountain_Soil",
+    "Red_Soil",
+    "Yellow_Soil"
+  ],
+  "test_accuracy": 0.3082,
+  "macro_f1": 0.2316,
+  "test_images": 159,
+  "train_images": 738,
+  "validation_images": 158,
+  "images_per_class_after_dedup": {
+    "Alluvial_Soil": 46,
+    "Arid_Soil": 270,
+    "Black_Soil": 212,
+    "Laterite_Soil": 200,
+    "Mountain_Soil": 171,
+    "Red_Soil": 94,
+    "Yellow_Soil": 62
+  },
+  "dropped": {
+    "unreadable": 0,
+    "exact_duplicates": 47,
+    "near_duplicates": 87
+  },
+  "per_class": {
+    "Alluvial_Soil": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 7
+    },
+    "Arid_Soil": {
+      "precision": 0.3721,
+      "recall": 0.7805,
+      "f1-score": 0.5039,
+      "support": 41
+    },
+    "Black_Soil": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 32
+    },
+    "Laterite_Soil": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 30
+    },
+    "Mountain_Soil": {
+      "precision": 0.1,
+      "recall": 0.0769,
+      "f1-score": 0.087,
+      "support": 26
+    },
+    "Red_Soil": {
+      "precision": 0.52,
+      "recall": 0.9286,
+      "f1-score": 0.6667,
+      "support": 14
+    },
+    "Yellow_Soil": {
+      "precision": 1.0,
+      "recall": 0.2222,
+      "f1-score": 0.3636,
+      "support": 9
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      6,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      1,
+      32,
+      0,
+      0,
+      6,
+      2,
+      0
+    ],
+    [
+      21,
+      5,
+      0,
+      0,
+      6,
+      0,
+      0
+    ],
+    [
+      3,
+      13,
+      0,
+      0,
+      4,
+      10,
+      0
+    ],
+    [
+      1,
+      23,
+      0,
+      0,
+      2,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      1,
+      13,
+      0
+    ],
+    [
+      0,
+      7,
+      0,
+      0,
+      0,
+      0,
+      2
+    ]
+  ],
+  "epochs_run": 11,
+  "train_seconds": 226,
+  "seed": 42,
+  "dataset_dir": "/home/claude/work/CROPNEXUS3/data/soil_images",
+  "dataset_note": "Evaluated on a held-out split of the SAME dataset (web-collected photos). Accuracy on your own phone photos will be lower; collect your own labelled photos to measure that.",
+  "limitations": [
+    "Predicts broad soil TYPE from colour/texture only - not nutrients, pH, salinity or moisture.",
+    "Small dataset (about a thousand images, imbalanced classes); the test set is small, so the figures are noisy.",
+    "Photos in the dataset were collected from online sources; lighting/camera differences from real farm photos are not covered."
+  ]
+}
