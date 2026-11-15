@@ -20,6 +20,8 @@
 
 ## 📸 Screenshots
 
+## 📸 Screenshots
+
 | | |
 |---|---|
 | **Landing** ![Landing](screenshots/landing.png) | **Feature section** ![Feature](screenshots/feature-section.png) |
