@@ -19,7 +19,14 @@
 
 ## 📋 Table of Contents
 
-[Overview](#-overview) · [Tech Stack](#-tech-stack) · [Features](#-features) · [Site Images](#-site-images) . [Security](#-security) · [Model Results](#-model-results) · [Limitations](#-limitations)
+[Overview](#-overview) ·
+[Tech Stack](#-tech-stack) ·
+[Features](#-features) ·
+[Site Images](#-site-images) ·
+[Project Resources](#-project-resources) ·
+[Security](#-security) ·
+[Model Results](#-model-results) ·
+[Limitations](#-limitations)
 
 
 
@@ -68,6 +75,16 @@ CropNexus helps a farmer decide **what to grow**, check a **sick leaf**, view **
 | **Soil Health** ![Soil](screenshots/soil.png) | **Water Management** ![Water](screenshots/water.png) |
 | **Plant Disease** ![Leaf](screenshots/leaf-disease.png) | **Mobile landing** ![Mobile](screenshots/mobile-landing.png) |
 | **Mobile Features menu** ![Mobile menu](screenshots/mobile-menu.png) | **Mobile, signed in** ![Mobile signed in](screenshots/mobile-loggedin.png) |
+
+## 📂 Project Resources
+
+Explore the complete documentation, architecture, and demonstration of CropNexus.
+
+| Resource | Description | Link |
+|---|---|---|
+| 🏗️ **System Architecture** | Complete system architecture, workflow, and component interaction diagram. | [View Architecture](https://app.eraser.io/workspace/3SLBkUA8KYQU62iT6eSV?origin=share) |
+| 🎥 **Project Demonstration** | Watch the complete CropNexus project demonstration and explore its features. | [Watch Video](YOUR_VIDEO_LINK) |
+| 📄 **Project Documentation** | Detailed project report, technical documentation, implementation, and related resources. | [View Documents](https://docs.google.com/document/d/170PMbDb4XVwmO1q0T0A1dClerpCe_YDl/edit?usp=sharing&ouid=104513385666770495941&rtpof=true&sd=true) |
 
 
 ## 🛡️ Security
