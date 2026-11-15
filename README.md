@@ -17,25 +17,9 @@
 
 </div>
 
----
-
-## 📸 Screenshots
-
-| | |
-|---|---|
-| **Landing** ![Landing](screenshots/landing.png) | **Feature section** ![Feature](screenshots/feature-section.png) |
-| **Features menu** ![Menu](screenshots/features-menu.png) | **Sign-up (age-range guide)** ![Step 2](screenshots/signup-step2.png) |
-| **Home (signed in)** ![Home](screenshots/home.png) | **Dark mode** ![Dark](screenshots/dark-mode.png) |
-| **Crop Calendar** ![Calendar](screenshots/calendar.png) | **Products** ![Products](screenshots/products.png) |
-| **Soil Health** ![Soil](screenshots/soil.png) | **Water Management** ![Water](screenshots/water.png) |
-| **Plant Disease** ![Leaf](screenshots/leaf-disease.png) | **Mobile landing** ![Mobile](screenshots/mobile-landing.png) |
-| **Mobile Features menu** ![Mobile menu](screenshots/mobile-menu.png) | **Mobile, signed in** ![Mobile signed in](screenshots/mobile-loggedin.png) |
-
-
-
 ## 📋 Table of Contents
 
-[Overview](#-overview) · [Tech Stack](#-tech-stack) · [Features](#-features)  · [Security](#-security) · [Model Results](#-model-results) · [Limitations](#-limitations)
+[Overview](#-overview) · [Tech Stack](#-tech-stack) · [Features](#-features) · [Site Images](#-site-images) . [Security](#-security) · [Model Results](#-model-results) · [Limitations](#-limitations)
 
 
 
@@ -71,6 +55,19 @@ CropNexus helps a farmer decide **what to grow**, check a **sick leaf**, view **
 | 🛒 **Products** | – | 30 hand-checked products with seller links, search and filters | `products.json` |
 | 🏛️ **Farming Resources** | – | 18 government schemes with official links, plus agriculture news | `schemes.json` + RSS |
 | 📬 **About / Contact** | – | Transparent model vs API vs rules table, spam-protected contact form | – |
+
+
+## 📸 Site Images
+
+| | |
+|---|---|
+| **Landing** ![Landing](screenshots/landing.png) | **Feature section** ![Feature](screenshots/feature-section.png) |
+| **Features menu** ![Menu](screenshots/features-menu.png) | **Sign-up (age-range guide)** ![Step 2](screenshots/signup-step2.png) |
+| **Home (signed in)** ![Home](screenshots/home.png) | **Dark mode** ![Dark](screenshots/dark-mode.png) |
+| **Crop Calendar** ![Calendar](screenshots/calendar.png) | **Products** ![Products](screenshots/products.png) |
+| **Soil Health** ![Soil](screenshots/soil.png) | **Water Management** ![Water](screenshots/water.png) |
+| **Plant Disease** ![Leaf](screenshots/leaf-disease.png) | **Mobile landing** ![Mobile](screenshots/mobile-landing.png) |
+| **Mobile Features menu** ![Mobile menu](screenshots/mobile-menu.png) | **Mobile, signed in** ![Mobile signed in](screenshots/mobile-loggedin.png) |
 
 
 ## 🛡️ Security
