@@ -4,6 +4,7 @@
 
 <img src="frontend/public/logo.png" width="110" alt="CropNexus logo" />
 
+
 <a href="https://git.io/typing-svg">
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&pause=1000&color=16A34A&center=true&vCenter=true&width=640&lines=Crop+prediction+%7C+Leaf+disease+detection;Live+weather+%7C+Smart+irrigation+planning;Soil+health+%7C+Crop+calendar+%7C+Govt+schemes;Built+for+farmers.+Powered+by+AI." alt="Typing animation" />
 </a>
