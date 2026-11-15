@@ -2,7 +2,7 @@
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:166534,100:84cc16&height=200&section=header&text=CropNexus&fontSize=64&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=AI-Powered%20Farmer%20Advisory&descSize=20&descAlignY=60" width="100%" alt="CropNexus banner" />
 
-<img src="frontend/public/logo.png" width="110" alt="CropNexus logo" />
+<!-- <img src="frontend/public/logo.png" width="110" alt="CropNexus logo" /> -->
 
 
 <a href="https://git.io/typing-svg">
