@@ -31,19 +31,19 @@
 | **Plant Disease** ![Leaf](screenshots/leaf-disease.png) | **Mobile landing** ![Mobile](screenshots/mobile-landing.png) |
 | **Mobile Features menu** ![Mobile menu](screenshots/mobile-menu.png) | **Mobile, signed in** ![Mobile signed in](screenshots/mobile-loggedin.png) |
 
----
+
 
 ## 📋 Table of Contents
 
-[Overview](#-overview) · [Tech Stack](#-tech-stack) · [Features](#-features) · [Architecture](#-architecture) · [Security](#-security) · [Model Results](#-model-results) · [Limitations](#-limitations)
+[Overview](#-overview) · [Tech Stack](#-tech-stack) · [Features](#-features)  · [Security](#-security) · [Model Results](#-model-results) · [Limitations](#-limitations)
 
----
+
 
 ## 🌾 Overview
 
 CropNexus helps a farmer decide **what to grow**, check a **sick leaf**, view **weather**, plan **irrigation**, keep a **task calendar** and find **government schemes**, all in one app.
 
----
+
 
 ## 🧰 Tech Stack
 
@@ -57,23 +57,6 @@ CropNexus helps a farmer decide **what to grow**, check a **sick leaf**, view **
 
 </div>
 
-| Technology | Version | Role |
-|---|---|---|
-| <img src="https://skillicons.dev/icons?i=react" width="24" /> React | 19 | UI framework |
-| <img src="https://skillicons.dev/icons?i=ts" width="24" /> TypeScript | 5.x | Typed frontend + backend |
-| <img src="https://skillicons.dev/icons?i=vite" width="24" /> Vite | Latest | Dev server and build |
-| <img src="https://skillicons.dev/icons?i=tailwind" width="24" /> Tailwind CSS | 4 | Styling |
-| <img src="https://skillicons.dev/icons?i=nodejs" width="24" /> Node.js | 22 | Runtime |
-| <img src="https://skillicons.dev/icons?i=express" width="24" /> Express | Latest | REST API |
-| <img src="https://skillicons.dev/icons?i=mongodb" width="24" /> MongoDB | Latest | Users, history, tasks |
-| <img src="https://skillicons.dev/icons?i=python" width="24" /> Python | 3.13 | ML service |
-| <img src="https://skillicons.dev/icons?i=fastapi" width="24" /> FastAPI | Latest | Model serving |
-| <img src="https://skillicons.dev/icons?i=tensorflow" width="24" /> TensorFlow | CPU | Leaf + soil CNNs |
-| <img src="https://skillicons.dev/icons?i=sklearn" width="24" /> scikit-learn | 1.8 | Crop Random Forest |
-
-Extras: `motion` (animations), `lucide-react` (icons), Geist + Bricolage Grotesque fonts, Open-Meteo (weather).
-
----
 
 ## ✨ Features
 
@@ -89,22 +72,6 @@ Extras: `motion` (animations), `lucide-react` (icons), Geist + Bricolage Grotesq
 | 🏛️ **Farming Resources** | – | 18 government schemes with official links, plus agriculture news | `schemes.json` + RSS |
 | 📬 **About / Contact** | – | Transparent model vs API vs rules table, spam-protected contact form | – |
 
-**Also included:** 6-step sign-up, password reset by email, feedback with 1–5 stars, live community stats (landing and Home only), profile avatars, **9 languages**, light/dark theme, reduced-motion support, glass navbar, scroll reveals and count-up numbers.
-
----
-
-## 🏗️ Architecture
-
-```
-Browser (React + TS)  ──/api──▶  Express + MongoDB  ──HTTP──▶  FastAPI (Python)
-      :5173                          :5050                        :8000
-                                auth · sessions · calendar     crop RF · leaf CNN · soil CNN
-                                weather/RSS proxies
-```
-
-The browser never calls FastAPI or third-party APIs directly. Express validates input, enforces per-user access and caches upstream calls.
-
----
 
 ## 🛡️ Security
 
@@ -115,7 +82,7 @@ The browser never calls FastAPI or third-party APIs directly. Express validates 
 - 🔗 Reset links: random, hashed, single-use, 15-minute expiry
 - 🧱 `helmet`, zod validation, 12 MB upload limit, per-IP rate limits, contact honeypot
 
----
+
 
 ## 📊 Model Results
 
@@ -126,7 +93,6 @@ The browser never calls FastAPI or third-party APIs directly. Express validates 
 | **Leaf disease** | PlantVillage, 10 classes | **91.96 %** |
 | **Soil photo** | Phantom-fs, 7 soil types | 30.8 % (experimental) |
 
----
 
 ## ⚠️ Limitations
 
